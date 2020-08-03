@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangwenyu.dao.PreachCommentMapper">
+  <resultMap id="BaseResultMap" type="com.zhangwenyu.bean.PreachComment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="preach_id" jdbcType="INTEGER" property="preachId" />
+    <result column="send_id" jdbcType="VARCHAR" property="sendId" />
+    <result column="send_name" jdbcType="VARCHAR" property="sendName" />
+    <result column="comment_text" jdbcType="VARCHAR" property="commentText" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+  </resultMap>
+
+  <resultMap id="ConditionResultMap" type="com.zhangwenyu.bean.PreachComment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="preach_id" jdbcType="INTEGER" property="preachId" />
+    <result column="send_id" jdbcType="VARCHAR" property="sendId" />
+    <result column="send_name" jdbcType="VARCHAR" property="sendName" />
+    <result column="comment_text" jdbcType="VARCHAR" property="commentText" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <association property="preachId" javaType="com.zhangwenyu.bean.Preach">
+      <id column="preach_id" property="preachId" ></id>
+      <result column="company_name" property="companyName" ></result>
+    </association>
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    comment_id, preach_id, send_id, send_name, comment_text, create_time
+  </sql>
+
+  <sql id="Condition_Column_List">
+    c.comment_id, c.preach_id, c.send_id, c.send_name, c.comment_text, c.create_time,p.preach_id,p.company_name
+  </sql>
+
+
+
+
+
+  <select id="selectByExample" parameterType="com.zhangwenyu.bean.PreachCommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from preachcomment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from preachcomment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from preachcomment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zhangwenyu.bean.PreachCommentExample">
+    delete from preachcomment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhangwenyu.bean.PreachComment">
+    insert into preachcomment (comment_id, preach_id, send_id, 
+      send_name, comment_text, create_time
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{preachId,jdbcType=INTEGER}, #{sendId,jdbcType=VARCHAR}, 
+      #{sendName,jdbcType=VARCHAR}, #{commentText,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhangwenyu.bean.PreachComment">
+    insert into preachcomment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="preachId != null">
+        preach_id,
+      </if>
+      <if test="sendId != null">
+        send_id,
+      </if>
+      <if test="sendName != null">
+        send_name,
+      </if>
+      <if test="commentText != null">
+        comment_text,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="preachId != null">
+        #{preachId,jdbcType=INTEGER},
+      </if>
+      <if test="sendId != null">
+        #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null">
+        #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null">
+        #{commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zhangwenyu.bean.PreachCommentExample" resultType="java.lang.Long">
+    select count(*) from preachcomment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update preachcomment
+    <set>
+      <if test="record.commentId != null">
+        comment_id = #{record.commentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.preachId != null">
+        preach_id = #{record.preachId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendId != null">
+        send_id = #{record.sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendName != null">
+        send_name = #{record.sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentText != null">
+        comment_text = #{record.commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update preachcomment
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      preach_id = #{record.preachId,jdbcType=INTEGER},
+      send_id = #{record.sendId,jdbcType=VARCHAR},
+      send_name = #{record.sendName,jdbcType=VARCHAR},
+      comment_text = #{record.commentText,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhangwenyu.bean.PreachComment">
+    update preachcomment
+    <set>
+      <if test="preachId != null">
+        preach_id = #{preachId,jdbcType=INTEGER},
+      </if>
+      <if test="sendId != null">
+        send_id = #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null">
+        send_name = #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null">
+        comment_text = #{commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhangwenyu.bean.PreachComment">
+    update preachcomment
+    set preach_id = #{preachId,jdbcType=INTEGER},
+      send_id = #{sendId,jdbcType=VARCHAR},
+      send_name = #{sendName,jdbcType=VARCHAR},
+      comment_text = #{commentText,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

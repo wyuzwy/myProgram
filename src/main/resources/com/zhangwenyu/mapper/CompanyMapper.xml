@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangwenyu.dao.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.zhangwenyu.bean.Company">
+    <id column="company_email" jdbcType="VARCHAR" property="companyEmail" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="provinces" jdbcType="VARCHAR" property="provinces" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="job_email" jdbcType="VARCHAR" property="jobEmail" />
+    <result column="company_property" jdbcType="VARCHAR" property="companyProperty" />
+    <result column="company_category" jdbcType="VARCHAR" property="companyCategory" />
+    <result column="scale" jdbcType="VARCHAR" property="scale" />
+    <result column="register_money" jdbcType="VARCHAR" property="registerMoney" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="company_license" jdbcType="VARCHAR" property="companyLicense" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="backup" jdbcType="VARCHAR" property="backup" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    company_email, company_name, user_name, phone, provinces, city, address, telephone, 
+    job_email, company_property, company_category, scale, register_money, logo, company_license, 
+    introduction, status, create_time, update_time, backup
+  </sql>
+  <select id="selectByExample" parameterType="com.zhangwenyu.bean.CompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from company
+    where company_email = #{companyEmail,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from company
+    where company_email = #{companyEmail,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zhangwenyu.bean.CompanyExample">
+    delete from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhangwenyu.bean.Company">
+    insert into company (company_email, company_name, user_name, 
+      phone, provinces, city, 
+      address, telephone, job_email, 
+      company_property, company_category, scale, 
+      register_money, logo, company_license, 
+      introduction, status, create_time, 
+      update_time, backup)
+    values (#{companyEmail,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{provinces,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{jobEmail,jdbcType=VARCHAR}, 
+      #{companyProperty,jdbcType=VARCHAR}, #{companyCategory,jdbcType=VARCHAR}, #{scale,jdbcType=VARCHAR}, 
+      #{registerMoney,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{companyLicense,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{backup,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhangwenyu.bean.Company">
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyEmail != null">
+        company_email,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="provinces != null">
+        provinces,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="jobEmail != null">
+        job_email,
+      </if>
+      <if test="companyProperty != null">
+        company_property,
+      </if>
+      <if test="companyCategory != null">
+        company_category,
+      </if>
+      <if test="scale != null">
+        scale,
+      </if>
+      <if test="registerMoney != null">
+        register_money,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="companyLicense != null">
+        company_license,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="backup != null">
+        backup,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyEmail != null">
+        #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="provinces != null">
+        #{provinces,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="jobEmail != null">
+        #{jobEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyProperty != null">
+        #{companyProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCategory != null">
+        #{companyCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="scale != null">
+        #{scale,jdbcType=VARCHAR},
+      </if>
+      <if test="registerMoney != null">
+        #{registerMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLicense != null">
+        #{companyLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="backup != null">
+        #{backup,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zhangwenyu.bean.CompanyExample" resultType="java.lang.Long">
+    select count(*) from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update company
+    <set>
+      <if test="record.companyEmail != null">
+        company_email = #{record.companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyName != null">
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinces != null">
+        provinces = #{record.provinces,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null">
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobEmail != null">
+        job_email = #{record.jobEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyProperty != null">
+        company_property = #{record.companyProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyCategory != null">
+        company_category = #{record.companyCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scale != null">
+        scale = #{record.scale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerMoney != null">
+        register_money = #{record.registerMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null">
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyLicense != null">
+        company_license = #{record.companyLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduction != null">
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backup != null">
+        backup = #{record.backup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update company
+    set company_email = #{record.companyEmail,jdbcType=VARCHAR},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      provinces = #{record.provinces,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      job_email = #{record.jobEmail,jdbcType=VARCHAR},
+      company_property = #{record.companyProperty,jdbcType=VARCHAR},
+      company_category = #{record.companyCategory,jdbcType=VARCHAR},
+      scale = #{record.scale,jdbcType=VARCHAR},
+      register_money = #{record.registerMoney,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      company_license = #{record.companyLicense,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      backup = #{record.backup,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhangwenyu.bean.Company">
+    update company
+    <set>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="provinces != null">
+        provinces = #{provinces,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="jobEmail != null">
+        job_email = #{jobEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyProperty != null">
+        company_property = #{companyProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCategory != null">
+        company_category = #{companyCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="scale != null">
+        scale = #{scale,jdbcType=VARCHAR},
+      </if>
+      <if test="registerMoney != null">
+        register_money = #{registerMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLicense != null">
+        company_license = #{companyLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="backup != null">
+        backup = #{backup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where company_email = #{companyEmail,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhangwenyu.bean.Company">
+    update company
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      provinces = #{provinces,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      job_email = #{jobEmail,jdbcType=VARCHAR},
+      company_property = #{companyProperty,jdbcType=VARCHAR},
+      company_category = #{companyCategory,jdbcType=VARCHAR},
+      scale = #{scale,jdbcType=VARCHAR},
+      register_money = #{registerMoney,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      company_license = #{companyLicense,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      backup = #{backup,jdbcType=VARCHAR}
+    where company_email = #{companyEmail,jdbcType=VARCHAR}
+  </update>
+</mapper>
